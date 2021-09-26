@@ -1,0 +1,19 @@
+pipeline{   pipeline{
+    agent any
+
+    environment{
+        PATH="opt/maven/bin:$PATH"
+    }
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git credentialsId: 'jenkinfile', url: 'https://github.com/Dasarivenkatesh/myweb.git'
+            }
+        }
+        stage("maven build"){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+    }
+}
