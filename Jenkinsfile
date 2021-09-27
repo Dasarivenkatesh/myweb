@@ -20,12 +20,12 @@ pipeline{
             steps{
         
             sshagent(['tomcat']) {
-            ssh'''
+            sh """
                scp -O StrictHostKeychecking = no target/myweb.war ec2-user@10.1.1.177:opt/tomcat/webapps/
                ssh ec2-user@10.1.1.177 opt/tomcat/bin/shutdown.sh
                ssh ec2-user@10.1.1.177 opt/tomcat/bin/startup.sh
                 // some block
-                '''
+                """
               }
             }  
         }
