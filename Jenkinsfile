@@ -16,12 +16,7 @@ pipeline{
                 sh "mv target/*.war  target/myweb.war"
             }
         }
-        stage("SonarQube analysis"){
-            steps{
-                sh "mvn clean package sonar:sonar"
-            }
-        }
-        stage("tomcat-deploy"){
+         stage("tomcat-deploy"){
             steps{
         
             sshagent(credentials: ['dev-new'], ignoreMissing: true) {
@@ -31,6 +26,11 @@ pipeline{
                      """
                  }
             }  
+         }
+         stage("SonarQube analysis"){
+            steps{
+                sh "mvn clean package sonar:sonar"
+            }
         }
         
             
