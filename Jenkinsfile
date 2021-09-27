@@ -10,9 +10,9 @@ pipeline{
                 git credentialsId: 'jenkinsfile', url: 'https://github.com/Dasarivenkatesh/myweb.git'
             }
         }
-        stage("maven build"){
+        stage("build && SonarQube analysis"){
             steps{
-                sh "mvn clean package"
+                sh "mvn clean package sonar:sonar"
                 sh "mv target/*.war  target/myweb.war"
             }
         }
