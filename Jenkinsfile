@@ -23,13 +23,19 @@ pipeline{
 
                   sh """
                      scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@10.1.1.177:/opt/apache-tomcat-9.0.53/webapps
-                    
-
-                    
                      """
                  }
             }  
         }
+        stage('build && SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('My SonarQube Server') {
+                   
+                    withMaven(maven:'Maven') {
+                        sh 'mvn clean package sonar:sonar'
+                    }
+                }
+            }
             
     }
 }
