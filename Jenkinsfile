@@ -10,13 +10,18 @@ pipeline{
                 git credentialsId: 'jenkinsfile', url: 'https://github.com/Dasarivenkatesh/myweb.git'
             }
         }
-        stage("build && SonarQube analysis"){
+        stage("build"){
             steps{
-                sh "mvn clean package sonar:sonar"
+                sh "mvn clean package"
                 sh "mv target/*.war  target/myweb.war"
             }
         }
-        stage("tomca-deploy"){
+        stage("SonarQube analysis"){
+            steps{
+                sh "mvn clean package sonar:sonar"
+            }
+        }
+        stage("tomcat-deploy"){
             steps{
         
             sshagent(credentials: ['dev-new'], ignoreMissing: true) {
