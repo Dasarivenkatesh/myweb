@@ -17,6 +17,8 @@ pipeline{
             }
         }
         stage("tomca-deploy"){
+            steps{
+        
             sshagent(['tomcat']) {
             ssh'''
                scp -O StrictHostKeychecking = no target/myweb.war ec2-user@10.1.1.177:opt/tomcat/webapps/
@@ -25,7 +27,7 @@ pipeline{
                 // some block
                 '''
               }
-            
+            }  
         }
             
     }
