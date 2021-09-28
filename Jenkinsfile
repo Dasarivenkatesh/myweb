@@ -12,8 +12,15 @@ pipeline{
         }
         stage("build"){
             steps{
-                sh "mvn clean package sonar:sonar"
+                sh "mvn clean package"
                 sh "mv target/*.war  target/myweb.war"
+            }
+        }
+         stage("SonarQube analysis"){
+            steps{
+                withSonarQubeEnv('My SonarQube Server'){
+                sh "mvn clean sonar:sonar package"
+                }
             }
         }
          stage("tomcat-deploy"){
@@ -26,15 +33,7 @@ pipeline{
                      """
                  }
             }  
-         }
-         stage("SonarQube analysis"){
-            steps{
-                withSonarQubeEnv('My SonarQube Server'){
-                sh "mvn clean sonar:sonar package"
-                }
-            }
-        }
-        
+         }    
             
     }
 }
