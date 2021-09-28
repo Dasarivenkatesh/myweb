@@ -16,7 +16,22 @@ pipeline{
                 sh "mv target/*.war  target/myweb.war"
             }
         }
-       
+        stage("artifoctory-backup"){
+            steps{
+                nexusArtifactUploader artifacts: [
+                    [artifactId: 'myweb', 
+                     classifier: '', 
+                     file: 'target/myweb-8.2.0.war', 
+                     type: 'war']], 
+                     credentialsId: 'nexus3', 
+                     groupId: 'in.javahome', 
+                     nexusUrl: '18.234.158.108:8081/', 
+                     nexusVersion: 'nexus3', 
+                     protocol: 'http',
+                     repository: 'http://18.234.158.108:8081/repository/version-release/',
+                     version: '8.2.0'
+            }
+        }
          stage("tomcat-deploy"){
             steps{
         
